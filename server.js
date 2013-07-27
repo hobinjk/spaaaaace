@@ -9,7 +9,7 @@ io.enable('browser client minification');
 io.set('log level', 1);
 // io.set('transports', ['websocket', 'flashsocket']);
 
-var allowed = ["LocalShip.js", "Missile.js", "RemoteShip.js", "Ship.js", "config.js", "localconfig.js", "space.css", "space.html", "space.js", "vec2.js"];
+var allowed = fs.readdirSync(__dirname+"/public/");
 function handler(req, res) {
   var pathname = url.parse(req.url).pathname.substr(1);
   if(allowed.indexOf(pathname) < 0) {
