@@ -26,6 +26,7 @@ function SpaceGame() {
 
   this.socket.on('join', this.onJoin.bind(this));
   this.socket.on('missile', this.onMissile.bind(this));
+  this.socket.on('destroyed', this.onDestroyed.bind(this));
 
   this.socket.emit('join', {id: this.id});
 
@@ -86,6 +87,14 @@ SpaceGame.prototype.onJoin = function(data) {
     if(this.ships[i].id == data.id) return;
   }
   this.ships.push(new RemoteShip(this,this.socket,data.id,-100,-100));
+}
+
+SpaceGame.prototype.onDestroyed = function(data) {
+  for(var i = 0; i < this.ships.length; i++) {
+    if(this.ships[i].id != data.id) continue;
+    if(this.ships[i].destroyed) continue;
+    this.ships[i].destroy();
+  }
 }
 
 SpaceGame.prototype.onKeyDown = function(e) {

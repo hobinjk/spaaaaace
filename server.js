@@ -9,7 +9,7 @@ io.enable('browser client minification');
 io.set('log level', 1);
 // io.set('transports', ['websocket', 'flashsocket']);
 
-var allowed = ["LocalShip.js", "Missile.js", "RemoteShip.js", "Ship.js", "config.js", "space.css", "space.html", "space.js", "vec2.js"];
+var allowed = ["LocalShip.js", "Missile.js", "RemoteShip.js", "Ship.js", "config.js", "localconfig.js", "space.css", "space.html", "space.js", "vec2.js"];
 function handler(req, res) {
   var pathname = url.parse(req.url).pathname.substr(1);
   if(allowed.indexOf(pathname) < 0) {
@@ -46,6 +46,7 @@ io.sockets.on('connection', function(socket) {
     var id = data.id;
     console.log(id+" destroyed");
     ids = ids.filter(function(oid) { return oid != id; });
+    io.sockets.emit('destroyed', data);
   });
   socket.on('missile', function(data) {
     //{id, dirX, dirY, locX, locY}
