@@ -17,7 +17,7 @@ function SpaceGame() {
 
   this.missiles = [];
 
-  this.socket = io.connect("http://localhost:3000");
+  this.socket = io.connect(LocalConfig.SERVER_URL);
   this.id = generateId();
   this.ships = [
     //new RemoteShip(this.socket,"you",this,-100,-100),
