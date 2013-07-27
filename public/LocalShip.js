@@ -84,11 +84,12 @@ LocalShip.prototype.update = function(dt) {
 
 LocalShip.prototype.draw = function(gfx) {
   Ship.prototype.draw.call(this, gfx);
-  this.makePath(gfx);
+  /*this.makePath(gfx);
   if(!gfx.isPointInPath(this.target.x, this.target.y)) gfx.strokeStyle = "rgb(255,255,255)";
-  else gfx.strokeStyle = "rgb(255,0,0)";
+  else gfx.strokeStyle = "rgb(255,0,0)";*/
+  gfx.strokeStyle = "rgb(255,255,255)";
   gfx.save();
-  gfx.translate(this.target.x, this.target.y);
+  gfx.translate((this.target.x+0.5)|0, (this.target.y+0.5)|0); //round coords
   gfx.beginPath();
   gfx.moveTo(-5,0);
   gfx.lineTo(5,0);

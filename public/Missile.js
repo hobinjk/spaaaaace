@@ -14,6 +14,11 @@ Missile.prototype.update = function(gfx, dt, ships) {
     this.destroy();
     return;
   }
+  if(!this.armed && (Date.now() - Config.MISSILE_ARM_DELAY > this.startTime)) {
+    this.armed = true;
+  } else {
+    return;
+  }
   for(var i = 0; i < ships.length; i++) {
     var ship = ships[i];
     var diff = this.loc.sub(ship.loc).magSq();
