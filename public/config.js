@@ -1,8 +1,8 @@
 var Config = {
-  STRAFE_LEFT_KEY: KeyboardEvent.DOM_VK_A,
-  STRAFE_RIGHT_KEY: KeyboardEvent.DOM_VK_D,
-  FORWARD_KEY: KeyboardEvent.DOM_VK_W,
-  REVERSE_KEY: KeyboardEvent.DOM_VK_S,
+  STRAFE_LEFT_KEY: KeyEvent.DOM_VK_A,
+  STRAFE_RIGHT_KEY: KeyEvent.DOM_VK_D,
+  FORWARD_KEY: KeyEvent.DOM_VK_W,
+  REVERSE_KEY: KeyEvent.DOM_VK_S,
   THRUST: 20,
   STRAFE_THRUST: 40,
   MAX_VEL: 300,

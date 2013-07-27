@@ -84,7 +84,7 @@ SpaceGame.prototype.onMissile = function(data) {
 
 SpaceGame.prototype.onJoin = function(data) {
   for(var i = 0; i < this.ships.length; i++) {
-    if(this.ships[i].id == data.id) return;
+    if(this.ships[i].id === data.id) return;
   }
   this.ships.push(new RemoteShip(this,this.socket,data.id,-100,-100));
 }
@@ -99,7 +99,7 @@ SpaceGame.prototype.onDestroyed = function(data) {
 
 SpaceGame.prototype.onKeyDown = function(e) {
   var keyCode = event.keyCode ? event.keyCode : event.which;
-  if(keyCode == KeyboardEvent.DOM_VK_C)
+  if(keyCode === KeyEvent.DOM_VK_C)
     this.clear = !this.clear;
 };
 
