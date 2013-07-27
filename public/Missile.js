@@ -5,6 +5,7 @@ function Missile(game, id, loc, dir) {
   this.loc = loc;
   this.vel = dir.normalized().mul(Config.MISSILE_VEL);
   this.destroyed = false;
+  this.armed = false;
 }
 
 Missile.prototype.update = function(gfx, dt, ships) {
@@ -14,10 +15,10 @@ Missile.prototype.update = function(gfx, dt, ships) {
     this.destroy();
     return;
   }
-  if(!this.armed && (Date.now() - Config.MISSILE_ARM_DELAY > this.startTime)) {
+  if(!this.armed) {
+    if(!(Date.now() - Config.MISSILE_ARM_DELAY > this.startTime))
+      return;
     this.armed = true;
-  } else {
-    return;
   }
   for(var i = 0; i < ships.length; i++) {
     var ship = ships[i];
@@ -27,6 +28,7 @@ Missile.prototype.update = function(gfx, dt, ships) {
     var scavel = this.vel.normalized().mul(5);
     console.log(scavel.x+" "+scavel.y);
     if(   gfx.isPointInPath(this.loc.x - scavel.x, this.loc.y - scavel.y)
+       || gfx.isPointInPath(this.loc.x, this.loc.y)
        || gfx.isPointInPath(this.loc.x + scavel.x, this.loc.y + scavel.y)) {
       this.destroy();
       ship.destroy();
