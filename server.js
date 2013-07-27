@@ -30,8 +30,9 @@ var ids = [];
 
 
 io.sockets.on('connection', function(socket) {
+  var id;
   socket.on('join', function(data) {
-    var id = data.id;
+    id = data.id;
     console.log(id+" joined");
     ids.push(id);
     io.sockets.emit('join', {'id': id});
@@ -43,13 +44,18 @@ io.sockets.on('connection', function(socket) {
     });
   });
   socket.on('destroyed', function(data) {
-    var id = data.id;
-    console.log(id+" destroyed");
-    ids = ids.filter(function(oid) { return oid != id; });
+    var destroyedId = data.id;
+    console.log(id+" says "+destroyedId+" has been destroyed");
+    ids = ids.filter(function(oid) { return oid != destroyedId; });
     io.sockets.emit('destroyed', data);
   });
   socket.on('missile', function(data) {
     //{id, dirX, dirY, locX, locY}
     io.sockets.volatile.emit('missile', data);
+  });
+
+  socket.on('disconnect', function() {
+    io.sockets.emit('destroyed', {'id': id});
+    ids = ids.filter(function(oid) { return oid != id; });
   });
 });
