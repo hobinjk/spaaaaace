@@ -1,0 +1,12 @@
+var Config = {
+  STRAFE_LEFT_KEY: KeyboardEvent.DOM_VK_A,
+  STRAFE_RIGHT_KEY: KeyboardEvent.DOM_VK_D,
+  FORWARD_KEY: KeyboardEvent.DOM_VK_W,
+  REVERSE_KEY: KeyboardEvent.DOM_VK_S,
+  THRUST: 20,
+  STRAFE_THRUST: 40,
+  MAX_VEL: 300,
+  MISSILE_TEST_RAD_SQ: 10*10,
+  MISSILE_VEL: 500,
+  UPDATE_DELAY: 50
+};
