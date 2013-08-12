@@ -1,7 +1,8 @@
 var app = require('http').createServer(handler),
     io = require('socket.io').listen(app),
     fs = require('fs'),
-    url = require('url');
+    url = require('url'),
+    mime = require('mime');
 
 app.listen(3000);
 
@@ -16,12 +17,14 @@ function handler(req, res) {
     res.writeHead(404);
     return res.end(pathname+" not found");
   }
-  fs.readFile(__dirname+"/public/"+pathname, function(err, data) {
+  var filename = __dirname+"/public/"+pathname;
+  var ctype = mime.lookup(filename);
+  fs.readFile(filename, function(err, data) {
     if(err) {
       res.writeHead(500);
       return res.end("Error loading "+pathname);
     }
-    res.writeHead(200);
+    res.writeHead(200, {"Content-Type": ctype});
     return res.end(data);
   });
 }
