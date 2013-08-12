@@ -37,14 +37,16 @@ EnemyShip.prototype.update = function(ships, dt) {
   }
   if(!targetPoint) {
     targetPoint = new Vec2(
-        350 + Math.cos(Date.now()/6000.0)*300,
-        350 + Math.sin(Date.now()/6000.0)*300
+        640 + Math.cos(Date.now()/4000.0)*600,
+        320 + Math.sin(Date.now()/2000.0)*300
     );
     this.target = targetPoint;
   }
 
   var desiredVel = targetPoint.sub(this.loc).limit(Config.MAX_VEL);
-  var acc = desiredVel.sub(this.vel).limit(Config.THRUST + Config.STRAFE_THRUST);
+  var acc = desiredVel.sub(this.vel);
+  // Limit acceleration to be fair if there are others present
+  if(shoot) acc = acc.limit(Config.THRUST + Config.STRAFE_THRUST);
   this.vel = this.vel.add(acc.mul(dt));
   var dir = this.target.sub(this.loc);
   this.theta = Math.atan2(dir.y, dir.x);
