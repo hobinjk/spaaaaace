@@ -32,14 +32,14 @@ function SpaceGame() {
 
   this.lastStep = Date.now();
   this.draw();
-};
+}
 
 SpaceGame.prototype.update = function() {
   var dt = (Date.now() - this.lastStep)/1000.0;
   for(var i = 0; i < this.ships.length; i++) {
     this.ships[i].update(dt);
   }
-  for(var i = 0; i < this.missiles.length; i++) {
+  for(i = 0; i < this.missiles.length; i++) {
     this.missiles[i].update(this.gfx, dt, this.ships);
   }
   this.ships = this.ships.filter(function(ship) {
@@ -58,7 +58,7 @@ SpaceGame.prototype.draw = function() {
   for(var i = 0; i < this.ships.length; i++) {
     this.ships[i].draw(this.gfx);
   }
-  for(var i = 0; i < this.missiles.length; i++) {
+  for(i = 0; i < this.missiles.length; i++) {
     this.missiles[i].draw(this.gfx);
   }
   this.lastStep = Date.now();
@@ -73,7 +73,8 @@ SpaceGame.prototype.launchMissile = function(ship, dir) {
       'locX': missLoc.x,
       'locY': missLoc.y
   });
-}
+};
+
 SpaceGame.prototype.onMissile = function(data) {
   var loc = new Vec2(data.locX, data.locY);
   var dir = new Vec2(data.dirX, data.dirY);
@@ -87,7 +88,7 @@ SpaceGame.prototype.onJoin = function(data) {
     if(this.ships[i].id === data.id) return;
   }
   this.ships.push(new RemoteShip(this,this.socket,data.id,-100,-100));
-}
+};
 
 SpaceGame.prototype.onDestroyed = function(data) {
   for(var i = 0; i < this.ships.length; i++) {
@@ -95,7 +96,7 @@ SpaceGame.prototype.onDestroyed = function(data) {
     if(this.ships[i].destroyed) continue;
     this.ships[i].destroy();
   }
-}
+};
 
 SpaceGame.prototype.onKeyDown = function(e) {
   var keyCode = event.keyCode ? event.keyCode : event.which;

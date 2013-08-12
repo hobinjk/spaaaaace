@@ -72,7 +72,8 @@ LocalShip.prototype.update = function(dt) {
   Ship.prototype.update.call(this, dt);
   if(this.socket) { // && (Date.now() - Config.UPDATE_DELAY > this.lastUpdate)) {
     //this.lastUpdate = Date.now();
-    this.socket.emit(this.id, {
+    this.socket.emit("update", {
+      id: this.id,
       locX: this.loc.x,
       locY: this.loc.y,
       velX: this.vel.x,

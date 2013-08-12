@@ -1,3 +1,8 @@
+if(typeof module !== "undefined") {
+  var Vec2 = require("./vec2.js");
+  var Config = require("./config.js");
+}
+
 function Ship(game,socket,id,x,y) {
   this.game = game;
   this.socket = socket;
@@ -45,3 +50,7 @@ Ship.prototype.destroy = function() {
   this.destroyed = true;
   this.socket.emit('destroyed', {'id': this.id});
 };
+
+if(typeof module !== "undefined") {
+  module.exports = Ship;
+}

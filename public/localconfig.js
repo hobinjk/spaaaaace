@@ -1,3 +1,3 @@
 var LocalConfig = {
-  SERVER_URL: "http://so.media.mit.edu:3000"
+  SERVER_URL: "http://18.85.27.17:3000"
 };

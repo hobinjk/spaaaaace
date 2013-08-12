@@ -74,7 +74,10 @@ Vec2.prototype.magSq = function() {
 };
 
 Vec2.prototype.normalized = function() {
-  return this.div(this.mag());
+  var mag = this.mag();
+  if(mag > 0.000001)
+    return this.div(this.mag());
+  return this;
 };
 
 Vec2.prototype.limit = function(mag) {
@@ -82,3 +85,6 @@ Vec2.prototype.limit = function(mag) {
   return this.normalized().mul(mag);
 };
 
+if(typeof(module) !== "undefined") {
+  module.exports = Vec2;
+}
