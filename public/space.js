@@ -28,7 +28,10 @@ function SpaceGame() {
   this.socket.on('missile', this.onMissile.bind(this));
   this.socket.on('destroyed', this.onDestroyed.bind(this));
 
-  this.socket.emit('join', {id: this.id});
+  this.socket.emit(
+      'join',
+      {id: this.id, width: this.width, height: this.height}
+  );
 
   this.lastStep = Date.now();
   this.draw();

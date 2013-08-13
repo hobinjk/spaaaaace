@@ -2,11 +2,10 @@ var Vec2 = require("./public/vec2.js");
 var Config = require("./public/config.js");
 var Ship = require("./public/Ship.js");
 
-function EnemyShip(launchMissile,id,x,y) {
-  Ship.call(this, null, null, id, x, y);
+function EnemyShip(game,id,x,y) {
+  Ship.call(this, game, null, id, x, y);
   this.lastShot = 0;
   this.shotDelay = 200;
-  this.launchMissile = launchMissile;
 }
 
 EnemyShip.prototype = Object.create(Ship.prototype);
@@ -37,14 +36,24 @@ EnemyShip.prototype.update = function(ships, dt) {
   }
   if(!targetPoint) {
     targetPoint = new Vec2(
-        640 + Math.cos(Date.now()/4000.0)*600,
-        320 + Math.sin(Date.now()/2000.0)*300
+        this.game.width/2 + Math.cos(Date.now()/4000.0)*this.game.width/2.2,
+        this.game.height/2 + Math.sin(Date.now()/2000.0)*this.game.height/2.2
     );
     this.target = targetPoint;
   }
 
   var desiredVel = targetPoint.sub(this.loc).limit(Config.MAX_VEL);
   var acc = desiredVel.sub(this.vel);
+  if(this.loc.x < 0) {
+    acc.x = 1000;
+  } else if(this.loc.x > this.game.width) {
+    acc.x = -1000;
+  }
+  if(this.loc.y < 0) {
+    acc.y = 1000;
+  } else if(this.loc.y > this.game.height) {
+    acc.y = -1000;
+  }
   // Limit acceleration to be fair if there are others present
   if(shoot) acc = acc.limit(Config.THRUST + Config.STRAFE_THRUST);
   this.vel = this.vel.add(acc.mul(dt));
@@ -60,7 +69,7 @@ EnemyShip.prototype.update = function(ships, dt) {
       dir = dir.limit(Config.MISSILE_VEL);
       var missLoc = this.loc.add(dir.normalized().mul(12));
 
-      this.launchMissile({
+      this.game.launchMissile({
         id: this.id,
         dirX: dir.x,
         dirY: dir.y,
