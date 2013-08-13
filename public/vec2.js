@@ -18,7 +18,9 @@ Vec2.prototype.mul = function(k) {
   return new Vec2(modx, mody);
 };
 
-Vec2.prototype.dot = Vec2.prototype.mul;
+Vec2.prototype.dot = function(vec) {
+  return this.x*vec.x + this.y*vec.y;
+};
 
 Vec2.prototype.div = function(k) {
   var modx = this.x;

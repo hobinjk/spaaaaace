@@ -29,7 +29,7 @@ EnemyShip.prototype.update = function(ships, dt) {
     if(closest) {
       var vel = closest.vel.normalized().mul(150);
       targetPoint = closest.loc.sub(vel);
-      var shootPoint = closest.loc.add(closest.vel);
+      var shootPoint = this.predictPosition(closest);
       this.target = shootPoint;
       shoot = true;
     }
@@ -78,6 +78,17 @@ EnemyShip.prototype.update = function(ships, dt) {
       });
     }
   }
+};
+
+EnemyShip.prototype.predictPosition = function(ship) {
+  //get component of their velocity which takes them away from us
+  var diff = ship.loc.sub(this.loc);
+  var distance = diff.mag() - 12;
+  var awayness = ship.vel.dot(diff)/distance;
+  //flightTime = (awayness*flightTime + distance)/missileVel
+  //missileVel*flightTime = awayness*flightTime + distance
+  var flightTime = distance/(Config.MISSILE_VEL - awayness);
+  return ship.loc.add(ship.vel.mul(flightTime));
 };
 
 if(typeof module !== "undefined") {

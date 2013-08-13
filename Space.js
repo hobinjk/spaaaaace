@@ -12,6 +12,7 @@ function Space(app) {
 
   this.io.sockets.on('connection', this.onConnection.bind(this));
   this.lastEnemyUpdate = Date.now();
+  this.lastEnemyAdd = Date.now();
   this.enemyCount = 0;
   this.width = 100;
   this.height = 100;
@@ -75,6 +76,11 @@ Space.prototype.enemyUpdate = function() {
     this.updateShip(data);
   }.bind(this));
   this.lastEnemyUpdate = Date.now();
+
+  if(this.lastEnemyAdd + 2000 < Date.now()) {
+    this.addEnemy();
+    this.lastEnemyAdd = Date.now();
+  }
   setTimeout(this.enemyUpdate.bind(this), 50);
 };
 
