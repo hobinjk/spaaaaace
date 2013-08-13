@@ -1,10 +1,15 @@
 function LocalShip(game,socket,id,canvas,x,y) {
   Ship.call(this, game, socket, id, x, y);
+  this.onKeyDown = this.onKeyDown.bind(this); //can't do inline if they're to be removed later
+  this.onKeyUp = this.onKeyUp.bind(this); //can't do inline if they're to be removed later
+  this.onMouseMove = this.onMouseMove.bind(this); //can't do inline if they're to be removed later
+  this.onMouseDown = this.onMouseDown.bind(this); //can't do inline if they're to be removed later
 
-  window.addEventListener("keydown", this.onKeyDown.bind(this));
-  window.addEventListener("keyup", this.onKeyUp.bind(this));
-  canvas.addEventListener("mousemove", this.onMouseMove.bind(this));
-  canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
+  window.addEventListener("keydown", this.onKeyDown, false);
+  window.addEventListener("keyup", this.onKeyUp, false);
+  canvas.addEventListener("mousemove", this.onMouseMove, false);
+  canvas.addEventListener("mousedown", this.onMouseDown, false);
+  this.canvas = canvas;
 
   this.lastUpdate = 0;
 }
@@ -100,4 +105,10 @@ LocalShip.prototype.draw = function(gfx) {
   gfx.restore();
 };
 
-
+LocalShip.prototype.destroy = function() {
+  Ship.prototype.destroy.call(this);
+  window.removeEventListener("keydown", this.onKeyDown, false);
+  window.removeEventListener("keyup", this.onKeyUp, false);
+  this.canvas.removeEventListener("mousemove", this.onMouseMove, false);
+  this.canvas.removeEventListener("mousedown", this.onMouseDown, false);
+};
